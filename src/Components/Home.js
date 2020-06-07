@@ -1,11 +1,12 @@
 import React from 'react';
 import ProjectContainer from '../Containers/ProjectContainer';
+import Container from '@material-ui/core/Container'
 
 class Home extends React.Component {
   state = {
-    projects: [],
-    steps: [],
-    users: []
+    projects: null,
+    steps: null,
+    users: null
   }
 
   fetchProjects = () => {
@@ -35,18 +36,26 @@ class Home extends React.Component {
     this.fetchUsers();
   }
   render(){
-    console.log("App Level State =>", this.state)
+    // console.log("App Level State =>", this.state)
+    let testing = this.state.users && this.state.projects && this.state.steps
     return(
-      <div>
+      <Container>
+      {testing
+        ?
+        <div>
         <h1>Welcome to Home Made</h1>
         <button>Login</button>
         <button>Signup</button>
         <ProjectContainer 
-          projects={this.state.projects} 
+          projects={this.state.projects}
           steps={this.state.steps}
           users={this.state.users}
         />
-      </div>
+        </div>
+        :
+        <div>No data</div>
+      }
+      </Container>
     )
   }
 }
