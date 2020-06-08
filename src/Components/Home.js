@@ -3,13 +3,13 @@ import ProjectContainer from '../Containers/ProjectContainer';
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
 import { Link as RouterLink } from 'react-router-dom'
-import Link from '@material-ui/core/Link'
 
 class Home extends React.Component {
   state = {
     projects: null,
     steps: null,
-    users: null
+    users: null,
+    currentUser: 'Nadia'
   }
 
   fetchProjects = () => {
@@ -43,7 +43,7 @@ class Home extends React.Component {
 
   render(){
     
-    // console.log("App Level State =>", this.state)
+    // console.log("Home Level State =>", this.state)
     let testing = this.state.users && this.state.projects && this.state.steps
     return(
       <Container>
@@ -55,8 +55,11 @@ class Home extends React.Component {
         <Button variant ='contained'>Sinup</Button>
         <Button 
           variant='contained' 
-          component={RouterLink} 
-          to='/projects/new'>New Project
+          component={RouterLink}
+          to='/projects/new'
+          user={this.state.currentUser}
+          >
+            New Project
           </Button>
         <ProjectContainer 
           projects={this.state.projects}

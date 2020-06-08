@@ -17,7 +17,7 @@ const ProjectCard = props => {
   const classes = useStyles();
 
   return(
-<Card raised='true' className={classes.root}>
+<Card raised={true} className={classes.root}>
     <CardContent>
       <Typography variant='h5'>
         {props.project.title}
