@@ -2,6 +2,8 @@ import React from 'react';
 import ProjectContainer from '../Containers/ProjectContainer';
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
+import { Link as RouterLink } from 'react-router-dom'
+import Link from '@material-ui/core/Link'
 
 class Home extends React.Component {
   state = {
@@ -36,7 +38,11 @@ class Home extends React.Component {
     this.fetchSteps();
     this.fetchUsers();
   }
+
+  
+
   render(){
+    
     // console.log("App Level State =>", this.state)
     let testing = this.state.users && this.state.projects && this.state.steps
     return(
@@ -46,7 +52,12 @@ class Home extends React.Component {
         <div>
         <h1>Welcome to Home Made</h1>
         <Button variant='contained'>Login</Button>
-        <Button variant ='contained'>Signup</Button>
+        <Button variant ='contained'>Sinup</Button>
+        <Button 
+          variant='contained' 
+          component={RouterLink} 
+          to='/projects/new'>New Project
+          </Button>
         <ProjectContainer 
           projects={this.state.projects}
           steps={this.state.steps}
