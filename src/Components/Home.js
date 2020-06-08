@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectContainer from '../Containers/ProjectContainer';
 import Container from '@material-ui/core/Container'
+import Button from '@material-ui/core/Button'
 
 class Home extends React.Component {
   state = {
@@ -44,8 +45,8 @@ class Home extends React.Component {
         ?
         <div>
         <h1>Welcome to Home Made</h1>
-        <button>Login</button>
-        <button>Signup</button>
+        <Button variant='contained'>Login</Button>
+        <Button variant ='contained'>Signup</Button>
         <ProjectContainer 
           projects={this.state.projects}
           steps={this.state.steps}
