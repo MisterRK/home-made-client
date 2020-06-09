@@ -5,21 +5,27 @@ import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
 import FileDropZone from "./FileDropZone";
+import NewStepForm from "./NewStepForm";
+import { Link as RouterLink } from 'react-router-dom'
 
 class NewProjectForm extends React.Component {
   state = {
     projectTitle: "",
-    projectIntro: "",
-    step1Heading: "",
-    step1Content: "",
+    // projectIntro: "",
     currentUser: null,
     currentUserId: null,
+    // steps: [],
+    // stepList: [],
     files: [],
+    projectId: null
   };
 
   componentDidMount = () => {
-    this.setState({currentUser: this.props.currentUser, currentUserId: this.props.currentUserId})
-  }
+    this.setState({
+      currentUser: this.props.currentUser,
+      currentUserId: this.props.currentUserId,
+    });
+  };
 
   //handle files being added to drop zone. (child)
   handleDropZone = (files) => {
@@ -37,22 +43,48 @@ class NewProjectForm extends React.Component {
     let newProject = {
       title: this.state.projectTitle,
       user_id: this.state.currentUserId,
-      images: this.state.images
+      images: this.state.images,
     };
     fetch(`http://localhost:3001/projects`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'accept': 'application/json',
-        'content-type': 'application/json'
+        accept: "application/json",
+        "content-type": "application/json",
       },
-      body: JSON.stringify(newProject)
-      })
-      .then(response => response.json())
-    // ? use next line to do something meaningful with the data
-      .then(json => console.log(json))
-  }
+      body: JSON.stringify(newProject),
+    })
+      .then((response) => response.json())
+      .then((json) => this.setState({projectId: json.id, projectTitle: json.title}))
+  };
 
+  oldAddStep = () => {
+    const steps = [this.state.steps];
+    this.setState({
+      steps: steps.concat(
+        <NewStepForm
+          key={this.state.steps.index}
+          handleChange={this.handleChange}
+          order={this.state.steps.length}
+        />
+      ),
+    });
+  };
 
+  addStep = () => {
+    const stepList = [this.state.stepList];
+    this.setState({
+      stepList: stepList.concat(
+        <NewStepForm
+          key={this.state.stepList.index}
+          handleChange={this.handleChange}
+          order={this.state.stepList.length}
+          
+        />
+      ),
+    });
+  };
+
+  //try and store only the information needed to create a step in this.state.steps. i.e {order: 1. project_id: 3, heading "asdasd", content:"asdasd"}
 
   render() {
     console.log("New Project From State", this.state);
@@ -70,47 +102,46 @@ class NewProjectForm extends React.Component {
           />
           <br />
           <br />
-          <InputLabel>Project Introduction</InputLabel>
-          <TextField
-            onChange={this.handleChange}
-            value={this.state.projectIntro}
-            name="projectIntro"
-            multiline={true}
-            fullWidth={true}
-          />
-          <br />
-          <br />
-          <InputLabel>Step One Heading</InputLabel>
-          <TextField
-            onChange={this.handleChange}
-            value={this.state.step1Heading}
-            name="step1Heading"
-            placeholder="Heading i.e. mix the ingredients"
-            multiline={true}
-            fullWidth={true}
-          />
-          <br />
-          <br />
-          <InputLabel>Step One Directions</InputLabel>
-          <TextField
-            onChange={this.handleChange}
-            value={this.state.step1Content}
-            name="step1Content"
-            multiline={true}
-            fullWidth={true}
-          />
+          {/* <NewIntroForm
+            intro={this.state.projectIntro}
+            handleChange={this.handleChange}
+          /> */}
+          {/* <Button onClick={this.addStep}>Add A Step</Button> */}
+          {/* {this.state.stepList.map((step) => {
+            return step; */}
+          
           <br />
           <br />
           <br />
           <br />
           <FileDropZone handleDropZone={this.handleDropZone} />
+          <br />
+          <br />
+          <br />
+          <br />
+          <Button 
+            type="submit" 
+            variant="contained"
 
-          <Button variant="contained">Add a Step</Button>
-            <Button
-            type="submit"
-            variant="contained">
-            Post this project
+            >
+            Start this project
           </Button>
+          {this.state.projectId ?
+          <div>
+          <Typography variant='h4'>Projects started click below to add steps</Typography>
+          <Button
+          variant='contained'
+          component={RouterLink}
+          to={{
+            pathname:'/steps/new',
+            projectId: this.state.projectId,
+            projectTitle: this.state.projectTitle}}
+          >
+            Add Some Steps
+          </Button>
+          </div>
+          :
+          null}
         </form>
       </Container>
     );
