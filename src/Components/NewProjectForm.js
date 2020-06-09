@@ -6,18 +6,17 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
 import FileDropZone from "./FileDropZone";
 import NewStepForm from "./NewStepForm";
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from "react-router-dom";
 
 class NewProjectForm extends React.Component {
   state = {
     projectTitle: "",
-    // projectIntro: "",
     currentUser: null,
     currentUserId: null,
-    // steps: [],
-    // stepList: [],
     files: [],
-    projectId: null
+    projectId: null,
+    steps: [],
+    counter: 1,
   };
 
   componentDidMount = () => {
@@ -54,39 +53,24 @@ class NewProjectForm extends React.Component {
       body: JSON.stringify(newProject),
     })
       .then((response) => response.json())
-      .then((json) => this.setState({projectId: json.id, projectTitle: json.title}))
+      .then((json) =>
+        this.setState({ projectId: json.id, projectTitle: json.title })
+      );
   };
 
-  oldAddStep = () => {
-    const steps = [this.state.steps];
-    this.setState({
-      steps: steps.concat(
-        <NewStepForm
-          key={this.state.steps.index}
-          handleChange={this.handleChange}
-          order={this.state.steps.length}
-        />
-      ),
-    });
-  };
+  handleDelete = () => {
+    this.setState({counter: this.state.counter - 1})
+  }
 
   addStep = () => {
-    const stepList = [this.state.stepList];
-    this.setState({
-      stepList: stepList.concat(
-        <NewStepForm
-          key={this.state.stepList.index}
-          handleChange={this.handleChange}
-          order={this.state.stepList.length}
-          
-        />
-      ),
-    });
-  };
-
-  //try and store only the information needed to create a step in this.state.steps. i.e {order: 1. project_id: 3, heading "asdasd", content:"asdasd"}
+    this.setState({counter: this.state.counter + 1})
+  }
 
   render() {
+    let steps = [];
+    for (var i = 0; i < this.state.counter; i++) {
+      steps.push(<NewStepForm key={i} stepNumber={i} handleDelete={this.handleDelete} />);
+    }
     console.log("New Project From State", this.state);
     return (
       <Container>
@@ -100,48 +84,12 @@ class NewProjectForm extends React.Component {
             fullWidth={true}
             placeholder="....."
           />
-          <br />
-          <br />
-          {/* <NewIntroForm
-            intro={this.state.projectIntro}
-            handleChange={this.handleChange}
-          /> */}
-          {/* <Button onClick={this.addStep}>Add A Step</Button> */}
-          {/* {this.state.stepList.map((step) => {
-            return step; */}
-          
-          <br />
-          <br />
-          <br />
-          <br />
           <FileDropZone handleDropZone={this.handleDropZone} />
-          <br />
-          <br />
-          <br />
-          <br />
-          <Button 
-            type="submit" 
-            variant="contained"
-
-            >
+          <Button type="submit" variant="contained">
             Start this project
           </Button>
-          {this.state.projectId ?
-          <div>
-          <Typography variant='h4'>Projects started click below to add steps</Typography>
-          <Button
-          variant='contained'
-          component={RouterLink}
-          to={{
-            pathname:'/steps/new',
-            projectId: this.state.projectId,
-            projectTitle: this.state.projectTitle}}
-          >
-            Add Some Steps
-          </Button>
-          </div>
-          :
-          null}
+          <Button onClick={this.addStep}>Add a Step</Button>
+          {steps}
         </form>
       </Container>
     );

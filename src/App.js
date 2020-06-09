@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import NewProjectForm from "./Components/NewProjectForm";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import NewStepForm from "./Components/NewStepForm";
+import ProjectDetail from "./Components/ProjectDetail";
 
 class App extends React.Component {
   state = {
@@ -22,8 +23,11 @@ class App extends React.Component {
         <Route
         exact path='/steps/new'
         render={(props) => <NewStepForm projectId={props.location.projectId} projectTitle={props.location.projectTitle}/>}
-
         />
+        {/* <Route 
+        exact path='/projects/:id'
+        component={ProjectDetail}
+        /> */}
       </Router>
     );
   }
