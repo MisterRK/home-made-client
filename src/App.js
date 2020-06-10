@@ -20,14 +20,11 @@ class App extends React.Component {
           path="/projects/new"
           render={() => <NewProjectForm currentUserId={this.state.currentUserId} currentUser={this.state.currentUser} />}
         />
-        <Route
-        exact path='/steps/new'
-        render={(props) => <NewStepForm projectId={props.location.projectId} projectTitle={props.location.projectTitle}/>}
-        />
-        {/* <Route 
+        <Route exact path='/projects' component={Home}/>
+        <Route 
         exact path='/projects/:id'
         component={ProjectDetail}
-        /> */}
+        />
       </Router>
     );
   }

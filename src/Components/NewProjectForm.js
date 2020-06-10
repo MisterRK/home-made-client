@@ -13,7 +13,7 @@ class NewProjectForm extends React.Component {
     projectTitle: "",
     currentUser: null,
     currentUserId: null,
-    files: [],
+    images: [],
     projectId: null,
     steps: [],
     counter: 1,
@@ -27,9 +27,9 @@ class NewProjectForm extends React.Component {
   };
 
   //handle files being added to drop zone. (child)
-  handleDropZone = (files) => {
+  handleDropZone = (images) => {
     this.setState({
-      files: files,
+      images: images,
     });
   };
   //handle any changes on the form
@@ -69,8 +69,9 @@ class NewProjectForm extends React.Component {
   render() {
     let steps = [];
     for (var i = 0; i < this.state.counter; i++) {
-      steps.push(<NewStepForm key={i} stepNumber={i} handleDelete={this.handleDelete} />);
-    }
+      steps.push(<NewStepForm key={i+1} stepNumber={i+1} projectId={this.state.projectId} handleDelete={this.handleDelete} />);
+    };
+
     console.log("New Project From State", this.state);
     return (
       <Container>
@@ -88,7 +89,7 @@ class NewProjectForm extends React.Component {
           <Button type="submit" variant="contained">
             Start this project
           </Button>
-          <Button onClick={this.addStep}>Add a Step</Button>
+          <Button variant='contained' onClick={this.addStep}>Add a Step</Button>
           {steps}
         </form>
       </Container>

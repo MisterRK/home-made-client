@@ -3,6 +3,7 @@ import ProjectContainer from '../Containers/ProjectContainer';
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
 import { Link as RouterLink } from 'react-router-dom'
+import { Typography } from '@material-ui/core';
 
 class Home extends React.Component {
   state = {
@@ -34,23 +35,24 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
-    this.fetchProjects();
-    this.fetchSteps();
-    this.fetchUsers();
+    Promise.all([
+      this.fetchUsers(),
+      this.fetchProjects()
+    ])
+
   }
 
   
 
   render(){
-    
     // console.log("Home Level State =>", this.state)
-    let testing = this.state.users && this.state.projects && this.state.steps
+    let testing = this.state.users && this.state.projects
     return(
       <Container>
       {testing
         ?
         <div>
-        <h1>Welcome to Home Made</h1>
+        <Typography variant='h2'>Welcome to Home Made</Typography>
         <Button variant='contained'>Login</Button>
         <Button variant ='contained'>Sinup</Button>
         <Button 
@@ -63,12 +65,12 @@ class Home extends React.Component {
           </Button>
         <ProjectContainer 
           projects={this.state.projects}
-          steps={this.state.steps}
+          // steps={this.state.steps}
           users={this.state.users}
         />
         </div>
         :
-        <div>No data</div>
+        <Typography variant='h1'>Welcome to Home Made</Typography>
       }
       </Container>
     )
