@@ -6,17 +6,18 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
 import FileDropZone from "./FileDropZone";
 import NewStepForm from "./NewStepForm";
-import { Link as RouterLink } from "react-router-dom";
+import Axios from 'axios'
 
 class NewProjectForm extends React.Component {
   state = {
-    projectTitle: "",
+    title: "",
     currentUser: null,
     currentUserId: null,
-    images: [],
+    image: null,
     projectId: null,
     steps: [],
-    counter: 1,
+    counter: 0,
+    started: false
   };
 
   componentDidMount = () => {
@@ -27,36 +28,45 @@ class NewProjectForm extends React.Component {
   };
 
   //handle files being added to drop zone. (child)
-  handleDropZone = (images) => {
+  handleDropZone = (e) => {
     this.setState({
-      images: images,
+      image: e.target,
     });
   };
   //handle any changes on the form
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  //handle the submitting of the form
+  //handle the submit and create the project
   handleSubmit = (e) => {
     e.preventDefault();
     let newProject = {
       title: this.state.projectTitle,
       user_id: this.state.currentUserId,
-      images: this.state.images,
+      image: this.state.image,
     };
     fetch(`http://localhost:3001/projects`, {
       method: "POST",
       headers: {
-        accept: "application/json",
+        accept: "application/response",
         "content-type": "application/json",
       },
       body: JSON.stringify(newProject),
     })
       .then((response) => response.json())
-      .then((json) =>
-        this.setState({ projectId: json.id, projectTitle: json.title })
-      );
+      .then((json) => this.setState({ projectId: json.id, projectTitle: json.title, started: true }));
+      
   };
+
+  createProject = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target)
+
+
+    Axios.post(`http://localhost:3001/projects`, data)
+    .then(response => this.setState({ projectId: response.data.id, projectTitle: response.data.title, started: true }))
+    // 
+  }
 
   handleDelete = () => {
     this.setState({counter: this.state.counter - 1})
@@ -73,25 +83,30 @@ class NewProjectForm extends React.Component {
     };
 
     console.log("New Project From State", this.state);
+    // console.log(this.state.image)
+    
+    
     return (
       <Container>
         <Typography variant="h1">Let's make a new Project</Typography>
-        <form onSubmit={this.handleSubmit}>
-          <InputLabel required={true}>Name of the Project</InputLabel>
+        <form onSubmit={this.createProject}>
+          <InputLabel>Name of the Project</InputLabel>
           <TextField
             onChange={this.handleChange}
             value={this.state.projectTitle}
-            name="projectTitle"
+            name="title"
             fullWidth={true}
             placeholder="....."
           />
-          <FileDropZone handleDropZone={this.handleDropZone} />
-          <Button type="submit" variant="contained">
-            Start this project
-          </Button>
+          <input type='file' name='image'/>
+          {this.props.currentUserId ? <input type='hidden' name='user_id' value={this.props.currentUserId}/>: null}
+          {this.state.started ? 
           <Button variant='contained' onClick={this.addStep}>Add a Step</Button>
-          {steps}
+          :
+          <Button type="submit" variant="contained">Start this project</Button>
+          }
         </form>
+          {steps}
       </Container>
     );
   }

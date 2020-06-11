@@ -54,7 +54,7 @@ class Home extends React.Component {
         <div>
         <Typography variant='h2'>Welcome to Home Made</Typography>
         <Button variant='contained'>Login</Button>
-        <Button variant ='contained'>Sinup</Button>
+        <Button variant ='contained'>Signup</Button>
         <Button 
           variant='contained' 
           component={RouterLink}
@@ -65,7 +65,6 @@ class Home extends React.Component {
           </Button>
         <ProjectContainer 
           projects={this.state.projects}
-          // steps={this.state.steps}
           users={this.state.users}
         />
         </div>

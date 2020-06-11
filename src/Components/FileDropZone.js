@@ -1,8 +1,16 @@
-import React from "react";
-import { DropzoneArea } from "material-ui-dropzone";
 
-const FileDropZone = (props) => {
-  return <DropzoneArea onChange={props.handleDropZone} />;
-};
+import React, {Component} from 'react'
+import {DropzoneArea} from 'material-ui-dropzone'
+
+class FileDropZone extends Component{
+  render(){
+    // console.log("Drop Zone State", this.)
+    return (
+      <DropzoneArea
+        onChange={this.props.handleDropZone}
+        />
+    )
+  }
+}
 
 export default FileDropZone;
