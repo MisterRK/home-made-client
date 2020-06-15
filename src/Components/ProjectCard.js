@@ -1,32 +1,63 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import { GridListTile, GridListTileBar, IconButton } from "@material-ui/core";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-    margin: "25px",
-    backgroundColor: "#9CC298",
-  },
-});
+class ProjectCard extends React.Component {
+  state = {
+    image: null,
+  };
+  componentDidMount = () => {
+    this.fetchImage(this.props.project.id);
+  };
+  fetchImage = (id) => {
+    fetch(`http://localhost:3001/projects/${id}/image`)
+      .then((response) => response.json())
+      .then((image) => this.setState({ image }));
+  };
 
-const ProjectCard = (props) => {
-  // console.log("Project Card Props =>", props);
-  const classes = useStyles();
-
-  return (
-    <Card
-      onClick={() => props.handleShowCard(props)}
-      raised={true}
-      className={classes.root}
-    >
-      <CardContent>
-        <Typography variant="h5">{props.project.title}</Typography>
-        <Typography variant="subtitle1">by {props.user.name}</Typography>
-      </CardContent>
-    </Card>
-  );
-};
+  render() {
+    // console.log("Project Card Props =>", this.props);
+    // console.log("projectCard State", this.state);
+    return (
+      <GridListTile
+        onClick={() => this.props.handleShowCard(this.props)}
+        className="projectCard"
+      >
+        {this.state.image ? (
+          <img
+            className="projectCardImage"
+            alt="nope"
+            src={`http://localhost:3001/${this.state.image.image}`}
+          />
+        ) : null}
+        <GridListTileBar
+        titlePosition='top'
+        actionIcon={
+          <IconButton>
+            
+          </IconButton>
+        }
+        />
+        <GridListTileBar
+          className="tileBars"
+          title={this.props.project.title}
+          subtitle={
+            this.props.user ? (
+              <span>
+                by: {this.props.user.name} {this.props.project.likes} Likes
+              </span>
+            ) : (
+              <span></span>
+            )
+          }
+          actionIcon={
+            <IconButton>
+              <FavoriteBorder></FavoriteBorder>
+            </IconButton>
+          }
+        ></GridListTileBar>
+      </GridListTile>
+    );
+  }
+}
 export default ProjectCard;

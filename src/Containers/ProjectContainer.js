@@ -1,19 +1,31 @@
 import React from 'react';
 import ProjectCard from '../Components/ProjectCard'
-import Container from '@material-ui/core/Container'
-import { useHistory } from 'react-router-dom';
+import { Container, GridList} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { useHistory, useParams } from 'react-router-dom';
 
+const useStyles = makeStyles((them) => ({
+  gridList: {
+    width: 1000,
+    height: 1000
+  }
+}))
 
 const ProjectContainer = props => {
+  const history = useHistory()
+
 
   const handleShowCard = (props) => {
     history.push(`/projects/${props.project.id}`)
   }
 
-  const history = useHistory()
-  // console.log("useHistory", history)
+  const classes = useStyles();
+  
+  
+
     return(
       <Container>
+        <GridList className={classes.gridList}>
         {props.projects.map(project =>
           <ProjectCard 
             handleShowCard={handleShowCard}
@@ -24,6 +36,7 @@ const ProjectContainer = props => {
             )}
           />
         )}
+        </GridList>
       </Container>
     )
 

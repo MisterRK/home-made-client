@@ -4,11 +4,11 @@ import Home from "./Components/Home";
 import NewProjectForm from "./Components/NewProjectForm";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ProjectDetail from "./Components/ProjectDetail";
+import EditProjectForm from "./Components/EditProjectFrom";
 
 class App extends React.Component {
   state = {
     currentUser: "Nadia",
-    currentUserId: 1,
   };
   render() {
     return (
@@ -17,13 +17,20 @@ class App extends React.Component {
         <Route
           exact
           path="/projects/new"
-          render={() => <NewProjectForm currentUserId={this.state.currentUserId} currentUser={this.state.currentUser} />}
+          render={() => (
+            <NewProjectForm
+              currentUserId={this.state.currentUserId}
+              currentUser={this.state.currentUser}
+            />
+          )}
         />
-        <Route exact path='/projects' component={Home}/>
-        <Route 
-        exact path='/projects/:id'
-        component={ProjectDetail}
+        <Route exact path="/projects" component={Home} />
+        <Route
+          exact
+          path="/projects/:id"
+          component={ProjectDetail}
         />
+        <Route exact path='/projects/:id/edit' component={EditProjectForm}/>
       </Router>
     );
   }

@@ -82,7 +82,7 @@ class NewProjectForm extends React.Component {
       steps.push(<NewStepForm key={i+1} stepNumber={i+1} projectId={this.state.projectId} handleDelete={this.handleDelete} />);
     };
 
-    console.log("New Project From State", this.state);
+    // console.log("New Project From State", this.state);
     // console.log(this.state.image)
     
     
