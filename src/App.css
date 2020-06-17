@@ -1,6 +1,6 @@
 .projectCard {
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   margin: 25px;
 }
 
@@ -9,4 +9,43 @@
 
 .MuiGridListTileBar-root{
   background-color: antiquewhite;
+}
+
+/* project detail page */
+#userNameAppBar1 {
+  position: absolute;
+  right: 25px;
+}
+
+/* home page */
+#userNameAppBar2 {
+  position: absolute;
+  right: 25px;
+}
+/* new project page */
+#userNameAppBar3 {
+  position: absolute;
+  right: 25px;
+}
+
+#newProjectBtn {
+  margin-left: 50px;
+}
+
+.appBar {
+  margin-bottom: 50px;
+}
+
+#backToProjectsBtn {
+  margin-left: 100px;
+}
+
+.searchBar {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+#searchIcon {
+  margin-right: 15px;
+}
+.PDImages {
 }

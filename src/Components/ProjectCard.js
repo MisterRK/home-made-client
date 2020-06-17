@@ -1,46 +1,68 @@
 import React from "react";
-import { GridListTile, GridListTileBar, IconButton } from "@material-ui/core";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import {
+  GridListTile,
+  GridListTileBar,
+  IconButton,
+  Tooltip,
+} from "@material-ui/core";
+import {
+  FavoriteBorder,
+  Pageview as PageviewIcon,
+  Favorite as FavoriteIcon,
+} from "@material-ui/icons/";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = (theme) => ({
+  topTileBar: {
+    background:
+      "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+  },
+  bottomTileBar: { background:"linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",},
+  pageview: { color: "white" },
+  tile: {
+    width: '400px',
+    height: '400px',
+    padding: '25px'
+  }
+});
 
 class ProjectCard extends React.Component {
   state = {
-    image: null,
+    counter: 0,
   };
-  componentDidMount = () => {
-    this.fetchImage(this.props.project.id);
+  handleCount = () => {
+    this.setState({ counter: (this.state.counter += 1) });
   };
-  fetchImage = (id) => {
-    fetch(`http://localhost:3001/projects/${id}/image`)
-      .then((response) => response.json())
-      .then((image) => this.setState({ image }));
-  };
-
   render() {
+    const { classes } = this.props;
     // console.log("Project Card Props =>", this.props);
     // console.log("projectCard State", this.state);
     return (
-      <GridListTile
-        onClick={() => this.props.handleShowCard(this.props)}
-        className="projectCard"
-      >
-        {this.state.image ? (
+      <GridListTile classes={{root: classes.tile}}>
+        {this.props.project.image_url ? (
           <img
             className="projectCardImage"
-            alt="nope"
-            src={`http://localhost:3001/${this.state.image.image}`}
+            alt="not available"
+            src={`http://localhost:3001/${this.props.project.image_url}`}
           />
         ) : null}
         <GridListTileBar
-        titlePosition='top'
-        actionIcon={
-          <IconButton>
-            
-          </IconButton>
-        }
+          classes={{ root: classes.topTileBar }}
+          titlePosition="top"
+          actionIcon={
+            <Tooltip
+              onClick={() => this.props.handleShowCard(this.props)}
+              title="View This Project"
+            >
+              <IconButton>
+                <PageviewIcon classes={{ root: classes.pageview }} />
+              </IconButton>
+            </Tooltip>
+          }
+          title={this.props.project.title}
         />
         <GridListTileBar
-          className="tileBars"
-          title={this.props.project.title}
+          classes={{ root: classes.bottomTileBar }}
           subtitle={
             this.props.user ? (
               <span>
@@ -51,13 +73,27 @@ class ProjectCard extends React.Component {
             )
           }
           actionIcon={
-            <IconButton>
-              <FavoriteBorder></FavoriteBorder>
-            </IconButton>
+            this.state.counter === 5 ? (
+              <IconButton>
+                <FavoriteIcon color="secondary" />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() => {
+                  this.props.addLike(this.props.project);
+                  this.handleCount();
+                }}
+              >
+                <FavoriteIcon color="secondary" />
+              </IconButton>
+            )
           }
-        ></GridListTileBar>
+          actionPosition="left"
+        >
+          <GridListTileBar />
+        </GridListTileBar>
       </GridListTile>
     );
   }
 }
-export default ProjectCard;
+export default withStyles(styles, { withTheme: true })(ProjectCard);

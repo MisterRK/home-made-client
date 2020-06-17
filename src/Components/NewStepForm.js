@@ -46,7 +46,8 @@ class NewStepForm extends React.Component {
       body: JSON.stringify(newStep),
     })
       .then((response) => response.json())
-      .then((json) => this.setState({ step: json }));
+      .then((json) => this.setState({ step: json }))
+      .then(this.setState({saved:true, editing: false}))
   };
 
   postStep = () => {
@@ -72,7 +73,8 @@ class NewStepForm extends React.Component {
     e.preventDefault();
     const data = new FormData(e.target)
     Axios.post(`http://localhost:3001/steps`, data)
-    .then(response => console.log(response))
+    .then(response => this.setState({step: response.data}))
+    .then(this.setState({editing:false, saved:true}))
   }
 
   

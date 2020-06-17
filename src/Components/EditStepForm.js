@@ -9,14 +9,14 @@ import {
 class EditStepForm extends React.Component {
   render() {
     const { step } = this.props;
-    // console.log(this.props);
+    // console.log(this.props.step.heading);
     return (
       <Container>
         <Typography variant="h5">Step {step.order}:</Typography>
         <InputLabel>Heading</InputLabel>
         <TextField
           onChange={(e) => this.props.handleStepChange(e, step.order)}
-          value={step.heading}
+          value={this.props.step.heading}
           name="heading"
           fullWidth={true}
         />
@@ -24,7 +24,7 @@ class EditStepForm extends React.Component {
         <TextField
           onChange={(e) => this.props.handleStepChange(e, step.order)}
           multiline={true}
-          value={step.content}
+          value={this.props.step.content}
           name="content"
           fullWidth={true}
         />

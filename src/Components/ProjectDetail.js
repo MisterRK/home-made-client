@@ -1,84 +1,79 @@
 import React from "react";
-import { Container, Typography, Button } from "@material-ui/core";
+import {
+  Container,
+  Typography,
+  Button,
+  AppBar,
+  Toolbar,
+} from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import StepDetail from "./StepDetail";
 
 class ProjectDetail extends React.Component {
-  state = {
-    project: {},
-    steps: [],
-  };
-
-  fetchProject = (id) => {
-    fetch(`http://localhost:3001/projects/${id}`)
-      .then((response) => response.json())
-      .then((json) => this.setState({ project: json }));
-  };
-  fetchSteps = (id) => {
-    fetch(`http://localhost:3001/projects/${id}/steps`)
-      .then((response) => response.json())
-      .then((json) => this.setState({ steps: json }));
-  };
-
-  fetchProjectImage = (id) => {
-    fetch(`http://localhost:3001/projects/${id}/image`)
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-        return response.json();
-      })
-      .then((json) => this.setState({ projectImage: json }));
-  };
-
-  componentDidMount = () => {
-    const projectId = parseInt(this.props.match.params.id);
-    Promise.all([
-      this.fetchProject(projectId),
-      this.fetchSteps(projectId),
-      this.fetchProjectImage(projectId),
-    ]);
-    this.setState({ currentUser: "Nadia", currentUserId: 1 });
-  };
-
   render() {
     // console.log("Project Details State", this.state)
     // console.log("ProjectDetails Props", this.props)
-    const sortedSteps = this.state.steps.sort((a,b) => a.order < b.order? -1 : 1)
+
+    const sortedSteps = this.props.steps.sort((a, b) =>
+      a.order < b.order ? -1 : 1
+    );
     return (
       <Container>
-        <Typography variant="h1">{this.state.project.title}</Typography>
-        {this.state.projectImage ? (
+        <AppBar className="appBar" position="sticky">
+          <Toolbar>
+            <Typography variant="h2">Home Made</Typography>
+            <Button
+              id="backToProjectsBtn"
+              variant="contained"
+              component={RouterLink}
+              to="/projects"
+            >
+              Back to Projects
+            </Button>
+            <Typography id="userNameAppBar1">
+              {this.props.currentUser}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        {this.props.project ? (
+          <>
+            <Typography variant="h3">{this.props.project.title}</Typography>
+            <Typography>By: {this.props.currentUser}</Typography>
+          </>
+        ) : null}
+        {this.props.project ? (
           <img
             alt="It don't work"
-            src={`http://localhost:3001/${this.state.projectImage.image}`}
+            src={`http://localhost:3001/${this.props.project.image_url}`}
           />
         ) : (
           <span></span>
         )}
-
         <br />
-        <Button
-          variant="contained"
-          component={RouterLink}
-          to="/projects"
-          user={this.state.currentUser}
-        >
-          Back to Projects
-        </Button>
-        {this.state.currentUserId === this.state.project.user_id ? (
-          <Button variant="contained" color="primary" component={RouterLink} to={`/projects/${this.state.project.id}/edit`}>
+        <br />
+        {this.props.currentUserId === this.props.project.user_id ? (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.props.toggleEdit}
+            // component={RouterLink}
+            // to={`/projects/${this.state.project.id}/edit`}
+          >
             Edit This Project
           </Button>
         ) : null}
 
         {sortedSteps.map((step, index) => (
+          <>
           <StepDetail
             key={step.id}
             id={step.id}
             heading={step.heading}
             content={step.content}
+            image={step.image_url}
           />
+          <br/>
+          </>
         ))}
       </Container>
     );
