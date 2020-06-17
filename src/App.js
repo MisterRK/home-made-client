@@ -6,6 +6,7 @@ import NewProjectForm from "./Components/NewProjectForm";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProjectContainer from "./Containers/ProjectContainer";
 import EditProjectForm from "./Components/EditProjectFrom";
+import ProfilePage from './Components/ProfilePage'
 
 class App extends React.Component {
   state = {
@@ -18,6 +19,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/projects" component={Home} />
+          <Route exact path='/users/:id' render={(props)=> (<ProfilePage currentUser={this.state.currentUser} currentUserId={this.state.currentUserId}/>)}/>
           <Route
             exact
             path="/projects/new"

@@ -8,6 +8,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import { fade, withStyles } from "@material-ui/core/styles"
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import ScrollToTop from './ScrollToTop'
 
 const styles = theme => ({
   searchBar: {
@@ -28,6 +29,9 @@ const styles = theme => ({
   },
   tooltip: {
     fontSize: '1em',
+  },
+  userBtn: {
+    color: 'white'
   }
   
 });
@@ -107,9 +111,13 @@ class Home extends React.Component {
                 </Button>
               </IconButton>
               </Tooltip>
-              <Typography id="userNameAppBar2">
+              <Button
+              classes={{text: classes.userBtn}}
+              component={RouterLink}
+              to={`users/${this.state.currentUserId}`}
+              id="userNameAppBar2">
                 {this.state.currentUser}
-              </Typography>
+              </Button>
             </Toolbar>
           </AppBar>
 
@@ -119,8 +127,9 @@ class Home extends React.Component {
             addLike={this.addLike}
           />
         </div>
+        
       </Container>
     );
   }
 }
-export default withStyles(styles, {withThem: true})(Home);
+export default withStyles(styles, {withTheme: true})(Home);

@@ -7,6 +7,7 @@ import {
   Button,
 } from "@material-ui/core";
 import EditStepForm from "./EditStepForm";
+import ScrollToTop from "./ScrollToTop";
 
 class EditProjectForm extends React.Component {
   render() {
@@ -54,6 +55,7 @@ class EditProjectForm extends React.Component {
             Delete this project
           </Button>
         </form>
+        <ScrollToTop/>
       </Container>
     );
   }

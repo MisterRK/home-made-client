@@ -5,9 +5,12 @@ import {
   Button,
   AppBar,
   Toolbar,
+  IconButton,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import StepDetail from "./StepDetail";
+import ScrollToTop from './ScrollToTop'
+import { Favorite } from "@material-ui/icons";
 
 class ProjectDetail extends React.Component {
   render() {
@@ -56,8 +59,6 @@ class ProjectDetail extends React.Component {
             variant="contained"
             color="primary"
             onClick={this.props.toggleEdit}
-            // component={RouterLink}
-            // to={`/projects/${this.state.project.id}/edit`}
           >
             Edit This Project
           </Button>
@@ -75,6 +76,8 @@ class ProjectDetail extends React.Component {
           <br/>
           </>
         ))}
+        <ScrollToTop project={this.props.project} />
+        
       </Container>
     );
   }

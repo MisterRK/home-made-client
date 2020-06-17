@@ -21,6 +21,7 @@
 #userNameAppBar2 {
   position: absolute;
   right: 25px;
+  color: 'white';
 }
 /* new project page */
 #userNameAppBar3 {
@@ -47,5 +48,14 @@
 #searchIcon {
   margin-right: 15px;
 }
-.PDImages {
+
+#scroll {
+  position: fixed;
+  top: 750px;
+  right: 100px;
+
+}
+
+.stepDetailImage {
+  float: right;
 }

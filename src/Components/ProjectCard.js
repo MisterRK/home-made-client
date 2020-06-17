@@ -6,7 +6,6 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import {
-  FavoriteBorder,
   Pageview as PageviewIcon,
   Favorite as FavoriteIcon,
 } from "@material-ui/icons/";

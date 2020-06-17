@@ -60,6 +60,7 @@ class NewProjectForm extends React.Component {
     e.preventDefault();
     this.setState({ counter: 1});
     const data = new FormData(e.target);
+    console.log(data)
     Axios.post(`http://localhost:3001/projects`, data).then((response) =>
       this.setState({
         projectId: response.data.id,
