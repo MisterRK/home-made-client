@@ -72,3 +72,10 @@
   width: 400px;
   height: 400px;
 }
+
+.loginForm {
+  display: block;
+  margin: auto;
+  margin-top: 25px;
+  text-align: center;
+}

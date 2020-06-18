@@ -1,5 +1,12 @@
 import React from 'react';
 import { Typography, Button, Container, TextField } from '@material-ui/core'
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = (theme) => ({
+  root: {
+    marginTop: '200px'
+  }
+});
 
 class Login extends React.Component {
   state = {
@@ -28,11 +35,12 @@ login = (e, name) => {
       this.props.history.push('/projects')
 }
   render(){
+    const { classes } = this.props
     console.log("login state", this.state)
     return(
-      <Container>
-        <Typography variant='h1'>Home Made</Typography>
-        <form onSubmit={(e) => this.login(e, this.state.userInput)}>
+      <Container >
+        <Typography classes={{root: classes.root}} align='center'   variant='h1'>Home Made</Typography>
+        <form className="loginForm"  onSubmit={(e) => this.login(e, this.state.userInput)}>
           <TextField placeholder="name"
           name='userInput'
           value={this.state.userInput}
@@ -42,6 +50,7 @@ login = (e, name) => {
           <br/>
           <br/>
           <TextField placeholder="password"
+          type='password'
           name='userPassword'
           value={this.state.userPassword}
           onChange={this.handleChange}
@@ -53,10 +62,12 @@ login = (e, name) => {
         <br/>
         <br/>
         <br/>
+        <div className='loginForm'>
         <Button>Signup</Button>
+        </div>
       </Container>
 
 
     )
   }
-} export default Login;
+} export default withStyles(styles, { withTheme: true })(Login);
