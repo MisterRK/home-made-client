@@ -7,7 +7,7 @@
 .projectCardImage {
 }
 
-.MuiGridListTileBar-root{
+.MuiGridListTileBar-root {
   background-color: antiquewhite;
 }
 
@@ -21,7 +21,7 @@
 #userNameAppBar2 {
   position: absolute;
   right: 25px;
-  color: 'white';
+  color: "white";
 }
 /* new project page */
 #userNameAppBar3 {
@@ -53,9 +53,22 @@
   position: fixed;
   top: 750px;
   right: 100px;
-
 }
-
-.stepDetailImage {
+.projectImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  /* text-align: center; */
+}
+.stepDetailImageRight {
+  margin-left: 20px;
   float: right;
+  width: 400px;
+  height: 400px;
+}
+.stepDetailImageLeft {
+  margin-right: 20px;
+  float: left;
+  width: 400px;
+  height: 400px;
 }

@@ -60,6 +60,14 @@ fetch(`http://localhost:3001/users/${this.props.currentUserId}`)
         <AppBar position="sticky">
             <Toolbar>
               <Typography variant="h2">Home Made</Typography>
+              <Button
+              id="backToProjectsBtn"
+              variant="contained"
+              component={RouterLink}
+              to="/projects"
+            >
+              Back to Projects
+            </Button>
               <Tooltip classes={{tooltip: classes.tooltip}} title="Create a new Project" arrow={true}>
               <IconButton>
                 <Button

@@ -144,7 +144,7 @@ class NewProjectForm extends React.Component {
           )}
         </form>
         {steps}
-        {this.state.started ? <Button component={RouterLink} to={`/projects/${this.state.projectId}`}>(`projects/${this.state.projectId}`)}>Save Project</Button> : null}
+        {this.state.started ? <Button component={RouterLink} to={`/projects/${this.state.projectId}`}>Save Project</Button> : null}
       </Container>
     );
   }

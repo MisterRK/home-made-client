@@ -6,7 +6,8 @@ class Login extends React.Component {
     users:[],
     currentUser: null,
     currentuserid: null,
-    userInput: ""
+    userInput: "",
+    userPassword: ""
   }
 
   componentDidMount = () => {
@@ -23,14 +24,11 @@ class Login extends React.Component {
   }
 login = (e, name) => {
   e.preventDefault();
-  for(let i = 0; i < this.state.users.length; i++){
-    if(this.state.users[i].name === name){
+      console.log(name)
       this.props.history.push('/projects')
-    } else return null
-  }
 }
   render(){
-    // console.log("login state", this.state)
+    console.log("login state", this.state)
     return(
       <Container>
         <Typography variant='h1'>Home Made</Typography>
@@ -43,7 +41,13 @@ login = (e, name) => {
           
           <br/>
           <br/>
-          
+          <TextField placeholder="password"
+          name='userPassword'
+          value={this.state.userPassword}
+          onChange={this.handleChange}
+          ></TextField>
+          <br/>
+          <br/>
           <Button variant='contained' type='submit'>Login</Button>
         </form>
         <br/>

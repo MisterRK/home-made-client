@@ -11,9 +11,19 @@ import { Link as RouterLink } from "react-router-dom";
 import StepDetail from "./StepDetail";
 import ScrollToTop from './ScrollToTop'
 import { Favorite } from "@material-ui/icons";
+import { withStyles } from '@material-ui/core/styles';
+
+
+const styles = theme => ({
+  root: {
+    margin: '100px',
+  }
+})
 
 class ProjectDetail extends React.Component {
+
   render() {
+    const { classes } = this.props
     // console.log("Project Details State", this.state)
     // console.log("ProjectDetails Props", this.props)
 
@@ -21,7 +31,7 @@ class ProjectDetail extends React.Component {
       a.order < b.order ? -1 : 1
     );
     return (
-      <Container>
+      <Container classes={classes.root}>
         <AppBar className="appBar" position="sticky">
           <Toolbar>
             <Typography variant="h2">Home Made</Typography>
@@ -38,6 +48,8 @@ class ProjectDetail extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
+        {/* end of nav bar */}
+
         {this.props.project ? (
           <>
             <Typography variant="h3">{this.props.project.title}</Typography>
@@ -45,7 +57,8 @@ class ProjectDetail extends React.Component {
           </>
         ) : null}
         {this.props.project ? (
-          <img
+          <img 
+            className='projectImage'
             alt="It don't work"
             src={`http://localhost:3001/${this.props.project.image_url}`}
           />
@@ -72,8 +85,8 @@ class ProjectDetail extends React.Component {
             heading={step.heading}
             content={step.content}
             image={step.image_url}
+            order={step.order}
           />
-          <br/>
           </>
         ))}
         <ScrollToTop project={this.props.project} />
@@ -82,4 +95,4 @@ class ProjectDetail extends React.Component {
     );
   }
 }
-export default ProjectDetail;
+export default withStyles(styles, { withTheme: true })(ProjectDetail);
